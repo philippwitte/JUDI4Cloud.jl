@@ -8,11 +8,11 @@ using AzureClusterlessHPC, Reexport
 export init_culsterless
 
 _judi_defaults = Dict("_POOL_ID"                => "JudiPool",
-                    "_POOL_VM_SIZE"           => "Standard_E8s_v3",
+                    "_POOL_VM_SIZE"           => "Standard_E4s_v3",
                     "_VERBOSE"                => "0",
                     "_NODE_OS_OFFER"          => "ubuntu-server-container",
                     "_NODE_OS_PUBLISHER"      => "microsoft-azure-batch",
-                    "_CONTAINER"              => "mloubout/judi-cpu:1.0",
+                    "_CONTAINER"              => "pwitteredwood.azurecr.io/judi-cpu:1.4.3",
                     "_NODE_COUNT_PER_POOL"    => "4",
                     "_NUM_RETRYS"             => "1",
                     "_POOL_COUNT"             => "1",
