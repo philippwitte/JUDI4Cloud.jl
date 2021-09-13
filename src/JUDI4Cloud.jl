@@ -1,8 +1,8 @@
 module JUDI4Cloud
 
-import Base.vcat, Base.+, PyCall
+import Base.vcat, Base.+
 
-using AzureClusterlessHPC, Reexport
+using AzureClusterlessHPC, Reexport, PyCall
 @reexport using JUDI
 
 export init_culsterless
