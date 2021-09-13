@@ -1,6 +1,6 @@
 module JUDI4Cloud
 
-import Base.vcat, Base.+
+import Base.vcat, Base.+, PyCall
 
 using AzureClusterlessHPC, Reexport
 @reexport using JUDI
@@ -68,8 +68,15 @@ function init_culsterless(nworkers=2; credentials=nothing, vm_size="Standard_E8s
         @eval(AzureClusterlessHPC, global __clients__ = create_clients(__credentials__, batch=true, blob=true))
     end
     # Create pool with idle autoscale. This will be much more efficient with a defined image rather than docker.
+    batch = pyimport("azure.batch")
+    container_registry = batch.models.ContainerRegistry(
+        registry_server = ENV["ACR_REGISTRY_SERVER"],
+        user_name = ENV["ACR_USERNAME"],
+        password = ENV["ACR_PASSWORD"]
+    )
+    
     create_pool(;enable_auto_scale=auto_scale, auto_scale_formula=auto_scale_formula(nworkers), 
-                auto_scale_evaluation_interval_minutes=5)
+                auto_scale_evaluation_interval_minutes=5, container_registry=container_registry)
 
     # Export JUDI on azure
     eval(macroexpand(JUDI4Cloud, quote @batchdef using Distributed, JUDI end))
